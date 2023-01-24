@@ -1,0 +1,126 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pypi-python-template"
+description = "Quickly creating a new Modern Python project and publishing it to PyPI ✨"
+readme = "README.md"
+requires-python = ">=3.7"
+license = "MIT"
+authors = [
+    { name = "Yasser Tahiri", email = "hello@yezz.me" },
+]
+
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Internet :: WWW/HTTP :: Session",
+    "Typing :: Typed",
+]
+
+dependencies = [
+    "typing-extensions >=3.7.4,<4.5.0",
+    "pydantic >=1.6.2,!=1.7,!=1.7.1,!=1.7.2,!=1.7.3,!=1.8,!=1.8.1,<2.0.0",
+    "email-validator>=1.3.0",
+]
+
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/yezz123/pypi-python-template"
+Funding = 'https://github.com/sponsors/yezz123'
+
+[project.optional-dependencies]
+lint = [
+    "pre-commit==2.21.0",
+    "mypy==0.991",
+]
+test = [
+    "pytest==7.2.1",
+    "pytest-asyncio == 0.20.3",
+    "codecov==2.1.12",
+    "pytest-cov==4.0.0",
+    "pytest-pretty",
+]
+docs = [
+    "mkdocs >=1.1.2,<2.0.0",
+    "mkdocs-material >=8.1.4,<10.0.0",
+    "mdx-include >=1.4.1,<2.0.0",
+    "mkdocs-markdownextradata-plugin >=0.1.7,<0.3.0",
+    "mkdocs-mermaid2-plugin==0.6.0",
+    "markdown-include==0.8.0",
+    "pymdown-extensions==9.9.2",
+    "jinja2==3.1.2"
+]
+
+[tool.hatch.version]
+path = "pypi_python_template/__init__.py"
+
+[tool.isort]
+profile = "black"
+known_third_party = ["pydantic", "typing_extensions"]
+
+[tool.ruff]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+]
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.ruff.isort]
+known-third-party = ["pydantic", "typing_extensions"]
+
+[tool.mypy]
+plugins = "pydantic.mypy"
+follow_imports = "silent"
+strict_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+disallow_any_generics = true
+check_untyped_defs = true
+ignore_missing_imports = true
+disallow_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = "pypi_python_template.tests.*"
+ignore_missing_imports = true
+check_untyped_defs = true
+
+[tool.coverage.report]
+precision = 2
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "raise NotImplemented",
+    "@overload",
+    "if TYPE_CHECKING:",
+    "if __name__ == .__main__.:",
+]
+
+[tool.pytest]
+testpaths = "tests/"
+log_cli = "1"
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)s [%(levelname)8s] %(message)s (%(filename)s:%(lineno)s)"
+log_cli_date_format= "%Y-%m-%d %H:%M:%S"
+asyncio_mode= "auto"
